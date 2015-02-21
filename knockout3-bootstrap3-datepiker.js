@@ -1,4 +1,5 @@
-﻿ko.bindingHandlers.daterange = {
+﻿var escape_ko_bindingHandlers_daterange = false;
+ko.bindingHandlers.daterange = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var accessor = valueAccessor();
         var startObservable = accessor.start;
@@ -10,23 +11,23 @@
             autoclose: true,
             todayHighlight: true
         }).on("changeDate", function (e) {
+            escape_ko_bindingHandlers_daterange = true;
             startObservable(e.dates[0]);
             endObservable(e.dates[1]);
+            escape_ko_bindingHandlers_daterange = false;
 
         });
 
     },
     update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-        if (escape_ko_bindingHandlers_dateinput) return;
+        if (escape_ko_bindingHandlers_daterange) return;
         var accessor = valueAccessor();
         var startObservable = accessor.start;
         var endObservable = accessor.end;
 
-        //if (ko.isObservable(observable)) {
-        //    var valuetoWrite = observable();
-        //    $(element).tagsinput('removeAll');;
-        //    $(element).tagsinput('items', valuetoWrite);
-        //}
+        if (ko.isObservable(startObservable)) $(element).datepicker('setStartDate', startObservable());
+        if (ko.isObservable(endObservable)) $(element).datepicker('setEndDate', endObservable());
+
     }
 
 };
