@@ -12,8 +12,10 @@ ko.bindingHandlers.daterange = {
             todayHighlight: true
         }).on("changeDate", function (e) {
             escape_ko_bindingHandlers_daterange = true;
-            startObservable(e.dates[0]);
-            endObservable(e.dates[1]);
+
+            startObservable(new Date($(e.target).data().datepicker.range[0]));
+            endObservable(new Date($(e.target).data().datepicker.range[1]));
+
             escape_ko_bindingHandlers_daterange = false;
 
         });
